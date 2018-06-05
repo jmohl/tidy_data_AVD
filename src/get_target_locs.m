@@ -33,8 +33,8 @@ if paradigm_params.version == 2
     %set to NaN for unimodal trials
     is_A = ismember(trim_data.trial_type, 'A');
     is_V = ismember(trim_data.trial_type, 'V');
-    A_tar(~is_A) = NaN;
-    V_tar(~is_V) = NaN;
+    V_tar(is_A) = NaN;
+    A_tar(is_V) = NaN;
 end
 
 end

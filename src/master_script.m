@@ -5,7 +5,7 @@
 % 5/17/18
 % -------------------
 %
-% Description: this script is will load the data from multiple days
+% Description: this script will load the data from multiple days
 % (extracted from metadata csvs) and convert them to the tidy data format.
 
 %TODO:
