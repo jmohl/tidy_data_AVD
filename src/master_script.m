@@ -12,9 +12,6 @@
 %-alerts based on really small file size (something wrong)
 %-alert for big files that are not listed in metadata
 
-%% get tidy_data for a single day
-%file_ID ='Juno_AVD2_2017_07_31_2'; %'Juno_AVDuals_2017_03_20_2' - old data
-
 % hardcoded parameters
 local_directory = 'C:\Users\jtm47\Documents\Projects\tidy_data_AVD\';
 avd_ver = 2;
