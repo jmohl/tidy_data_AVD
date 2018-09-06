@@ -18,6 +18,8 @@ if avd_ver == 1
     metadata = readtable('recording_metadata_AVduals_V1.csv');
 elseif avd_ver == 2
     metadata = readtable('recording_metadata_AVD2.csv');
+elseif strcmp(avd_ver, 'HU')
+    metadata = readtable('human_metadata.xlsx'); %for some reason I have no clue about the csv version does not import correctly
 end
 
 end

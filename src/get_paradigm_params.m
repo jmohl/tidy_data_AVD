@@ -33,6 +33,16 @@ elseif avd_ver == 2
     params.Vtar_row = 2;
     params.overlap_ID = 2;
     params.simul_ID = [7 8]; %two simul tasks, one is just the L-R flipped version of the other
+elseif  strcmp(avd_ver,'HU') %same params as avd2
+    params.version = 2;
+    params.stim_onset = 5;
+    params.go_cue = 6;
+    params.sing_rew = 9;
+    params.dual_rew = 14;
+    params.Atar_row = 3; 
+    params.Vtar_row = 2;
+    params.overlap_ID = 2;
+    params.simul_ID = [7 8]; %two simul tasks, one is just the L-R flipped version of the other
 else
     error('no specified parameters for given avd version')
 end
