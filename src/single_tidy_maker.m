@@ -16,10 +16,10 @@ cd(local_directory) %I don't know if this is the right way to do this.
 addpath('src','results','data')
 
 %% Hard coded values for desired file
-file_dir = 'C:\Users\jtm47\Documents\beethoven_data_copy_avd2';
-file_name = 'H03_AVD2_2018_08_01';
+file_dir = 'C:\Users\jtm47\Documents\beethoven_data_copy';
+file_name = 'Juno_AVDuals_2017_03_10'; 
 file_ID =sprintf('%s\\%s',file_dir,file_name);
-save_path = 'C:\Users\jtm47\Documents\Data\human_AVD2';
+save_path = 'C:\Users\jtm47\Documents\Data\';
 
 %% make tidy_data
 
