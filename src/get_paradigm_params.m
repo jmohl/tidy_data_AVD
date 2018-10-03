@@ -15,7 +15,7 @@
 % params - structure containing relevant parameter data for given version
 function params = get_paradigm_params(avd_ver)
 
-if avd_ver == 1 %JM TODO
+if avd_ver == 1
     params.version = 1;
     params.stim_onset = 5;
     params.go_cue = 6;
@@ -26,7 +26,8 @@ if avd_ver == 1 %JM TODO
     params.overlap_ID = 2;
     params.simul_ID = 7:8;
     params.close_ID = 9:12; % 4 conditions, 2 rewarded and 2 not rewarded
-   
+    params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
+    
 elseif avd_ver == 2
     params.version = 2;
     params.stim_onset = 5;
@@ -37,6 +38,8 @@ elseif avd_ver == 2
     params.Vtar_row = 2;
     params.overlap_ID = 2;
     params.simul_ID = [7 8]; %two simul tasks, one is just the L-R flipped version of the other
+    params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
+
 elseif  strcmp(avd_ver,'HU') %same params as avd2
     params.version = 2;
     params.stim_onset = 5;
@@ -47,6 +50,8 @@ elseif  strcmp(avd_ver,'HU') %same params as avd2
     params.Vtar_row = 2;
     params.overlap_ID = 2;
     params.simul_ID = [7 8]; %two simul tasks, one is just the L-R flipped version of the other
+    params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
+
 else
     error('no specified parameters for given avd version')
 end

@@ -82,6 +82,9 @@ tidy_data = trim_data(:,tidy_fields);
 tidy_data.Properties.VariableNames{'TRIAL_NUMBER'} = 'trial';
 tidy_data.Properties.VariableNames{'REWARD'} = 'reward';
 
+% add field for saccade order
+tidy_data = get_sac_ordered_data(tidy_data,paradigm_params.correct_window); %correct window is set in paradigm params
+
 end
 
 
