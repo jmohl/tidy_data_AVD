@@ -27,6 +27,7 @@ if avd_ver == 1
     params.simul_ID = 7:8;
     params.close_ID = 9:12; % 4 conditions, 2 rewarded and 2 not rewarded
     params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
+    params.sac_buffer = 200;
     
 elseif avd_ver == 2
     params.version = 2;
@@ -39,6 +40,7 @@ elseif avd_ver == 2
     params.overlap_ID = 2;
     params.simul_ID = [7 8]; %two simul tasks, one is just the L-R flipped version of the other
     params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
+    params.sac_buffer = 200;
 
 elseif  strcmp(avd_ver,'HU') %same params as avd2
     params.version = 2;
@@ -51,6 +53,7 @@ elseif  strcmp(avd_ver,'HU') %same params as avd2
     params.overlap_ID = 2;
     params.simul_ID = [7 8]; %two simul tasks, one is just the L-R flipped version of the other
     params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
+    params.sac_buffer = 200;
 
 else
     error('no specified parameters for given avd version')

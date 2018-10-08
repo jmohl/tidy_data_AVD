@@ -85,6 +85,10 @@ tidy_data.Properties.VariableNames{'REWARD'} = 'reward';
 % add field for saccade order
 tidy_data = get_sac_ordered_data(tidy_data,paradigm_params.correct_window); %correct window is set in paradigm params
 
+% add field for number of valid saccades in each trial
+
+tidy_data.n_sacs = get_n_sacs(tidy_data, paradigm_params.sac_buffer);
+
 end
 
 
