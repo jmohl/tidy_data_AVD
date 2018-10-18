@@ -49,11 +49,13 @@ trim_data.trial_type = get_trial_types(trim_data,paradigm_params);
 
 %detect saccades and add that data to table
 sac_endpoints = cell(height(trim_data),1);
+sac_intervals = cell(height(trim_data),1);
 for i = 1:height(trim_data)
-    sac_endpoints{i} = find_sacs(trim_data.eyedata{i}(:,1),trim_data.eyedata{i}(:,2),0); 
+    [sac_endpoints{i},sac_intervals{i}] = find_sacs(trim_data.eyedata{i}(:,1),trim_data.eyedata{i}(:,2),0); 
     %3rd value is an option to use only horizontal saccade velocity for purposes of determining whether a saccade occured
 end
 trim_data.sac_endpoints = sac_endpoints;
+trim_data.sac_intervals = sac_intervals;
 
 %convert spike times to ms (spikeres is 10 micro seconds,spkdata is in microseconds)
 for i = 1:height(trim_data)
@@ -74,7 +76,8 @@ tidy_fields = {...
     'statedata',...
     'spkdata',...
     'eyedata',...
-    'sac_endpoints'...
+    'sac_endpoints',...
+    'sac_intervals'...
 };
 tidy_data = trim_data(:,tidy_fields);
 

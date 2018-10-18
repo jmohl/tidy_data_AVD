@@ -15,8 +15,8 @@ sac_vector = zeros(height(tidy_data),1);
 
 for tr = 1:length(sac_vector)
     if ~isnan(tidy_data.go_time(tr)) & ~isempty(tidy_data.sac_endpoints{tr})
-        this_sacs = tidy_data.sac_endpoints{tr};
-        sac_vector(tr) = sum(this_sacs(:,3) > tidy_data.go_time(tr) & this_sacs(:,3) < tidy_data.end_time(tr)+sac_buffer);
+        this_sac_ints = tidy_data.sac_intervals{tr};
+        sac_vector(tr) = sum(this_sac_ints(:,2) > tidy_data.go_time(tr) & this_sac_ints(:,2) < tidy_data.end_time(tr)+sac_buffer);
     end
 end
 end

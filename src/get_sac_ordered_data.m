@@ -29,7 +29,7 @@ for tr = 1:length(tidy_data.trial)
         HEyeEndpoint = NaN;
     else
         for jj = 1: size(tidy_data.sac_endpoints{tr,1},1)
-            if tidy_data.sac_endpoints{tr,1}(jj,3) >= tidy_data.go_time(tr)
+            if tidy_data.sac_intervals{tr,1}(jj,2) >= tidy_data.go_time(tr)
                 HEyeEndpoint = tidy_data.sac_endpoints{tr,1}(jj,1);
                 break
             end

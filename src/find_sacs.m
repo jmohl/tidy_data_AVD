@@ -17,14 +17,14 @@
 
 %parameters for saccade detection: (changed 2/20/18)
 %start: velocity > 50 deg/s
-%end: velocity < 25 deg/s, at least 100 ms before next saccade detected
-%magnitude: at least 3 degrees
+%end: velocity < 25 deg/s, at least 50 ms before next saccade detected
+%magnitude: at least 2 degrees
 %adjustment: 50 ms is added to end time in order to get past slowdown time
 %discarding: saccades occuring within 20 ms of end of trial (lack of data)
 
-%note that eye position is sampled at 500hz, so index = time/2
+%note that eye position is sampled at 500hz, and everything is done in 'eye time' for this script, so index = time/2
 
-function locations = find_sacs(HEyeTrace,VEyeTrace, h_only)
+function [locations,sac_interval] = find_sacs(HEyeTrace,VEyeTrace, h_only)
 %report the location of all detected saccades (x,y,t) with velocity from
 %100-900 deg/sec
 HEyeTrace = smooth(HEyeTrace,15); %smoothing to remove jitter. Might result in difficulty with exact measurement of saccade timing
@@ -42,8 +42,9 @@ end
 
 high_times = find(eye_vel>50); %eye velocity > 50 deg/s
 shifted = vertcat(high_times(2:end),0);
-transition_times = high_times(find(abs(shifted-high_times) > 50)); %detect time points where the saccade slows down for at least 100 ms
+transition_times = high_times(find(abs(shifted-high_times) > 25)); %detect time points where the saccade slows down for at least 100 ms
 sac_end_times=[];
+sac_start_times=[];
 for t = 1:length(transition_times);
     transition = transition_times(t);
     slow_times = find(eye_vel<25); %find times where saccade is below 25 deg/s
@@ -54,18 +55,20 @@ for t = 1:length(transition_times);
     end
     if ~isempty(slow_times(find(slow_times > transition,1)))    %first slow time after transition
         
-        sac_end = slow_times(find(slow_times > transition,1))+50;%+50 makes endpoint more accurate (instead of being on the curve)
+        sac_end = slow_times(find(slow_times > transition,1))+25;%+25 makes endpoint more accurate (instead of being on the curve, is on the flat)
         if sac_end < length(HEyeTrace) %dont use endpoints that go past the end of the trial
             if h_only
                 magnitude = abs(HEyeTrace(sac_start)-HEyeTrace(sac_end));
             else
                 magnitude = sqrt((HEyeTrace(sac_start)-HEyeTrace(sac_end))^2+(VEyeTrace(sac_start)-VEyeTrace(sac_end))^2);
             end
-            if magnitude > 3 %saccade must have a magnitude of at least 3 degrees, otherwise skipped
+            if magnitude > 2 & max(abs(VEyeTrace(sac_start:sac_end))) < 35  %saccade must have a magnitude of at least 2 degrees, otherwise skipped, also skipping blinks (result in very high V amplitude when using eye tracker)
+                sac_start_times(end+1) = sac_start;
                 sac_end_times(end+1) = sac_end;
             end
         else
-            sac_end_times(end+1) =length(HEyeTrace); %if no slow times after transition, happens at end of trials
+            sac_start_times(end+1) = sac_start;
+            sac_end_times(end+1) = length(HEyeTrace); %if no slow times after transition, happens at end of trials
         end
     
     end
@@ -78,7 +81,9 @@ else
     Hsac_endpoints = [];
     Vsac_endpoints = [];
 end
-
-locations=[Hsac_endpoints,Vsac_endpoints,sac_end_times'*2]; %sampling rate is 500 hz, so multiplying by 2 to put in trial time
+% check_sac_plotter; %code for looking at the raw eye traces and comparing
+% that with what comes out of the code
+locations=[Hsac_endpoints,Vsac_endpoints];
+sac_interval = [sac_start_times'*2,sac_end_times'*2]; %sampling rate is 500 hz, so multiplying by 2 to put in trial time
 end
 

@@ -15,7 +15,7 @@
 % hardcoded parameters
 local_directory = 'C:\Users\jtm47\Documents\Projects\tidy_data_AVD\';
 all_ver = {1,2,'HU'}; %1,2, or 'HU' for avd1, avd2, and human paradigm versions respectively
-all_ver = {2};
+%all_ver = {2};
 %adding paths
 cd(local_directory)
 addpath('src','results','data')
