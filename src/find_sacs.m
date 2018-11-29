@@ -6,8 +6,8 @@
 %updated 2/20/18
 %---------------
 
-%Description: detect saccades (eye velocity > 100deg/s) and report all of
-%the endpoitns of those saccades. I think this script is a little excessive
+%Description: detect saccades (eye velocity > 50deg/s) and report all of
+%the endpoints of those saccades. I think this script is a little excessive
 %but not worth streamlining.
 
 %UPDATE: altered so that the trace (rather than the velocity) is smoothed.
