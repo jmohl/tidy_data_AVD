@@ -36,7 +36,7 @@ if nargin < 3
     buffer_time = 0; %in ms, amount of time to include after stop time. For saccades initiated before end of trial.
 end
 
-corrective_threshold = 3; % saccades smaller than this threshold will not be counted as independent reports, but
+corrective_threshold = 3; % saccades smaller than this threshold will not be counted as independent reports
 
 if req_fix
     data = data(~isnan(data.go_time),:);
@@ -51,6 +51,7 @@ A_endpoints = endpoints;
 V_endpoints = endpoints;
 for i=1:height(data)
     this_endpoints = data.sac_endpoints{i}; %for saccade data
+    A_tar = data.A_tar(i);V_tar = data.V_tar(i);
     this_sac_interval = data.sac_intervals{i};
     if ~isempty(this_endpoints)
         interval_inds = this_sac_interval(:,2) > data.go_time(i) & this_sac_interval(:,2) < (data.end_time(i) + buffer_time); %note that endpoints(:,2) contains the endpoint time of the saccade
@@ -81,13 +82,18 @@ for i=1:height(data)
             endpoints{i} = this_endpoints;
             
             if size(this_endpoints,1) > 1
-                A_tar = data.A_tar(i);V_tar = data.V_tar(i);
                 [~,A_closest_ind] = sort(abs(this_endpoints(:,1)-A_tar));
                 A_endpoints{i} = this_endpoints(A_closest_ind(1),1:2);
                 [~,V_closest_ind] = sort(abs(this_endpoints(:,1)-V_tar));
                 V_endpoints{i} = this_endpoints(V_closest_ind(1),1:2);
                 if A_endpoints{i} == V_endpoints{i} %V is assumed to be more accurate, so if there is one saccade that is "closest" to both targets, A is changed to the 2nd closest.
                     A_endpoints{i} = this_endpoints(A_closest_ind(2),1:2);
+                    if abs(this_endpoints(A_closest_ind(2),1) - A_tar) > 12 %this is put in to deal with corrective saccades that sneak through, but cannot be considered "auditory" because they are very far from the auditory target
+                        A_endpoints{i} = [];
+                        V_endpoints{i} = [];
+                        endpoints{i} = this_endpoints(V_closest_ind(1),1:2);
+                    end
+                        
                 end
             end
         end

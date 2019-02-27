@@ -45,6 +45,6 @@ AV_on_target = is_AV & on_target;
 
 valid_single = ~is_AV & initiated & has_sac;
 valid_AV = AV_on_target & initiated & has_sac;
-valid_trial = (valid_single | valid_AV)&valid_dur;
+valid_trial = (valid_single | valid_AV) & valid_dur;
 
 end
