@@ -20,7 +20,7 @@
 function tidy_data = create_tidy(file_ID,paradigm_params)
 
 file_name = sprintf('%s.dat.cell1',file_ID);
-data=struct2table(g_read_data(file_name));%load data file and make table
+tidy_data=struct2table(g_read_data(file_name));%load data file and make table
 
 % include only useful fields from raw data
 included_fields ={...
@@ -35,7 +35,10 @@ included_fields ={...
     'spkdata',...
     'SUBJECTNAME',...
 };
-trim_data = data(:,included_fields);
+trim_data = tidy_data(:,included_fields);
+
+% remove garbage from file ID, if applicable
+
 trim_data.file_ID(:,1) = {file_ID}; %add file ID 
 
 %convert numbers into more clear trial types
@@ -88,9 +91,34 @@ tidy_data.Properties.VariableNames{'REWARD'} = 'reward';
 % add field for saccade order
 tidy_data = get_sac_ordered_data(tidy_data,paradigm_params.correct_window); %correct window is set in paradigm params
 
-% add field for number of valid saccades in each trial
+% add valid trial labels
+tidy_data.valid_tr = get_valid_trials(tidy_data,paradigm_params.min_state, paradigm_params.min_dur);
 
-tidy_data.n_sacs = get_n_sacs(tidy_data, paradigm_params.sac_buffer);
+% get valid endpoints
+tidy_data.valid_endpoints =cell(height(tidy_data),1);
+tidy_data(tidy_data.valid_tr,:).valid_endpoints = get_response_endpoints(tidy_data(tidy_data.valid_tr,:), 1, paradigm_params.sac_buffer);
+
+%plot vis guided histograms for trouble shooting and validation
+% for visual trials, splitting by positive and negative targets
+%  V_data = tidy_data(strcmp(tidy_data.trial_type,'V')& tidy_data.valid_tr,:); 
+%  plot_sac_box(V_data)
+%  AV_data = tidy_data(strcmp(tidy_data.trial_type,'AV')& tidy_data.valid_tr & tidy_data.A_tar == tidy_data.V_tar,:); 
+%  plot_sac_box(AV_data)
+
+ % adjust calibration, aligning all saccades on visual targets
+tidy_data = get_bias_corrected_data(tidy_data);
+
+% rerun get valid endpoints on bias corrected data, also get labeled A and
+% V saccades.
+tidy_data.A_endpoints =cell(height(tidy_data),1);
+tidy_data.V_endpoints =cell(height(tidy_data),1);
+[tidy_data(tidy_data.valid_tr,:).valid_endpoints,...
+    tidy_data(tidy_data.valid_tr,:).A_endpoints,...
+    tidy_data(tidy_data.valid_tr,:).V_endpoints]...
+    = get_response_endpoints(tidy_data(tidy_data.valid_tr,:), 1, paradigm_params.sac_buffer);
+
+% add field for number of valid saccades in each trial
+tidy_data.n_sacs = cellfun(@(x) size(x,1),tidy_data.valid_endpoints);
 
 end
 

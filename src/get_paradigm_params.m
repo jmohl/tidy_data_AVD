@@ -28,6 +28,8 @@ if avd_ver == 1
     params.close_ID = 9:12; % 4 conditions, 2 rewarded and 2 not rewarded
     params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
     params.sac_buffer = 200;
+    params.min_state = 7; %enter A state, minimum acceptable state for dual trials;
+    params.min_dur = 600; %600 ms after go cue is minimum trial length
     
 elseif avd_ver == 2
     params.version = 2;
@@ -41,6 +43,8 @@ elseif avd_ver == 2
     params.simul_ID = [7 8]; %two simul tasks, one is just the L-R flipped version of the other
     params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
     params.sac_buffer = 200;
+    params.min_state = 8; %enter A state, minimum acceptable state for dual trials;
+    params.min_dur =600; %600 ms after go cue is minimum trial length
 
 elseif  strcmp(avd_ver,'HU') %same params as avd2
     params.version = 2;
@@ -54,6 +58,8 @@ elseif  strcmp(avd_ver,'HU') %same params as avd2
     params.simul_ID = [7 8]; %two simul tasks, one is just the L-R flipped version of the other
     params.correct_window = 10; %window for labeling a saccade as 'directed' towards one of the two targets
     params.sac_buffer = 200;
+    params.min_state = 8; %enter A state, minimum acceptable state for dual trials;
+    params.min_dur = 600; %600 ms after go cue is minimum trial length
 
 else
     error('no specified parameters for given avd version')
