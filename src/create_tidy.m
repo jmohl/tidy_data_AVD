@@ -100,13 +100,24 @@ tidy_data(tidy_data.valid_tr,:).valid_endpoints = get_response_endpoints(tidy_da
 
 %plot vis guided histograms for trouble shooting and validation
 % for visual trials, splitting by positive and negative targets
-%  V_data = tidy_data(strcmp(tidy_data.trial_type,'V')& tidy_data.valid_tr,:); 
-%  plot_sac_box(V_data)
-%  AV_data = tidy_data(strcmp(tidy_data.trial_type,'AV')& tidy_data.valid_tr & tidy_data.A_tar == tidy_data.V_tar,:); 
-%  plot_sac_box(AV_data)
+V_data = tidy_data(strcmp(tidy_data.trial_type,'V')& tidy_data.valid_tr,:);
+plot_sac_box(V_data)
+title('V uncorrected')
+AV_data = tidy_data(strcmp(tidy_data.trial_type,'AV')& tidy_data.valid_tr & tidy_data.A_tar == tidy_data.V_tar,:);
+plot_sac_box(AV_data)
+title('AV uncorrected')
+
 
  % adjust calibration, aligning all saccades on visual targets
 tidy_data = get_bias_corrected_data(tidy_data);
+
+% plots for visualization of bias correction effects
+V_data = tidy_data(strcmp(tidy_data.trial_type,'V')& tidy_data.valid_tr,:);
+plot_sac_box(V_data)
+title('V corrected')
+AV_data = tidy_data(strcmp(tidy_data.trial_type,'AV')& tidy_data.valid_tr & tidy_data.A_tar == tidy_data.V_tar,:);
+plot_sac_box(AV_data)
+title('AV corrected')
 
 % rerun get valid endpoints on bias corrected data, also get labeled A and
 % V saccades.
