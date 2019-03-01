@@ -28,8 +28,8 @@ is_AV = strcmp(data.trial_type,'AV');
 endpoints=zeros(height(data),2);
 on_target = zeros(height(data),1);
 for i = 1:height(data)
-    if ~isnan(data.go_time(i))
-        first_sac = find(data(i,:).sac_intervals{:}(:,1) >= data(i,:).go_time - 100,1); %very occasionally the monkey will anticipate the go cue and initiate a saccade early, -100 here compensates for that
+    if ~isnan(data.go_time(i)) & ~isempty(data.sac_endpoints{i})
+        first_sac = find(data(i,:).sac_intervals{:}(:,1) >= data(i,:).go_time - 100 & data(i,:).sac_intervals{:}(:,1) <= data(i,:).end_time,1); %very occasionally the monkey will anticipate the go cue and initiate a saccade early, -100 here compensates for that
         if ~isempty(first_sac)
          endpoints(i,:) = data(i,:).sac_endpoints{:}(first_sac,:);
          on_target(i) = max(data(i,:).statedata{:}(:,3) == min_state);
