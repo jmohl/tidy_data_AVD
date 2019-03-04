@@ -35,7 +35,7 @@ for ver = 1:length(all_ver)
             tidy_data = create_tidy(file_ID,paradigm_params);
             %save file in results
             save(sprintf('%s\\%s_tidy','results',file_ID),'tidy_data');
-        elseif metadata.good_rec(i) > 0 %only days with good recordings(see docs, labeled by good_rec > 0)
+        elseif metadata.good_rec(i) >= 0.5 %only days with good recordings(see docs, labeled by good_rec > 0.5)
             %generate tidy data for this file
             tidy_data = create_tidy(file_ID,paradigm_params);
             % add field for quality of recording, from metadata
