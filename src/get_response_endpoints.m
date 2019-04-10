@@ -68,7 +68,7 @@ for i=1:height(data)
             
             % BIG THING: I'm going to treat saccades that are less than 3
             % degrees apart as corrective rather than as two response
-            % saccades. This is going to have the effect of increaasing the
+            % saccades. This is going to have the effect of increasing the
             % number of single saccade trials, but I think that is more
             % representative of intent.
             
