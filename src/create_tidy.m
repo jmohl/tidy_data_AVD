@@ -123,7 +123,7 @@ tidy_data.V_endpoints =cell(height(tidy_data),1);
 
 % Make trials invalid if A and V endpoints are not within acceptable
 % accuracy windows
-tidy_data = acuracy_filter(tidy_data);
+%tidy_data = acuracy_filter(tidy_data);
 
 % add field for number of valid saccades in each trial
 tidy_data.n_sacs = cellfun(@(x) size(x,1),tidy_data.valid_endpoints);
