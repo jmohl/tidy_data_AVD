@@ -121,12 +121,17 @@ tidy_data.V_endpoints =cell(height(tidy_data),1);
     tidy_data(tidy_data.valid_tr,:).V_endpoints]...
     = get_response_endpoints(tidy_data(tidy_data.valid_tr,:), 1, paradigm_params.sac_buffer);
 
-% Make trials invalid if A and V endpoints are not within acceptable
-% accuracy windows
-%tidy_data = acuracy_filter(tidy_data);
-
 % add field for number of valid saccades in each trial
 tidy_data.n_sacs = cellfun(@(x) size(x,1),tidy_data.valid_endpoints);
+
+% Make trials invalid if A or V endpoints are outliers with respect to the
+% standard deviation of errors within that modality. Should typically only
+% result in 3-5 trials lost per day, at least on new paradigm.
+filter_vector = accuracy_filter(tidy_data);
+if sum(filter_vector) > 100
+    sprintf('Problem with day %s: %d trials filtered for accuracy',file_ID,sum(filter_vector));
+end
+tidy_data.valid_tr(filter_vector) = 0;
 
 end
 

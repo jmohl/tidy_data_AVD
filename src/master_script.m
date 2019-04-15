@@ -13,7 +13,7 @@
 %-alert for big files that are not listed in metadata
 
 % hardcoded parameters
-local_directory = 'C:\Users\jtm47\Documents\GitHub\tidy_data_AVD\';
+local_directory = 'C:\Users\jtm47\Documents\Projects\tidy_data_AVD\';
 all_ver = {1,2,'HU'}; %1,2, or 'HU' for avd1, avd2, and human paradigm versions respectively
 %all_ver = {2};
 %adding paths
