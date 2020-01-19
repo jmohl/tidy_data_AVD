@@ -88,9 +88,6 @@ tidy_data = trim_data(:,tidy_fields);
 tidy_data.Properties.VariableNames{'TRIAL_NUMBER'} = 'trial';
 tidy_data.Properties.VariableNames{'REWARD'} = 'reward';
 
-% add field for saccade order
-tidy_data = get_sac_ordered_data(tidy_data,paradigm_params.correct_window); %correct window is set in paradigm params
-
 % add valid trial labels
 tidy_data.valid_tr = get_valid_trials(tidy_data,paradigm_params.min_state, paradigm_params.min_dur);
 
@@ -123,6 +120,9 @@ tidy_data.V_endpoints =cell(height(tidy_data),1);
 
 % add field for number of valid saccades in each trial
 tidy_data.n_sacs = cellfun(@(x) size(x,1),tidy_data.valid_endpoints);
+
+% add field for saccade order, and time of first valid saccade
+tidy_data = get_sac_ordered_data(tidy_data);
 
 % Make trials invalid if A or V endpoints are outliers with respect to the
 % standard deviation of errors within that modality. Should typically only

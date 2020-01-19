@@ -14,8 +14,8 @@
 
 % hardcoded parameters
 local_directory = 'C:\Users\jtm47\Documents\Projects\tidy_data_AVD\';
-%all_ver = {1,2,'HU'}; %1,2, or 'HU' for avd1, avd2, and human paradigm versions respectively
-all_ver = {2}; %only running on version 2 to update
+all_ver = {1,2,'HU'}; %1,2, or 'HU' for avd1, avd2, and human paradigm versions respectively
+%all_ver = {2}; %only running on version 2 to update
 limited_subjects = 1;subjects = {'Yoko'};  %option to run only specific subjects
 
 %adding paths
@@ -39,11 +39,11 @@ for ver = 1:length(all_ver)
             tidy_data = create_tidy(file_ID,paradigm_params);
             %save file in results
             save(sprintf('%s\\%s_tidy','results',file_ID),'tidy_data');
-        elseif metadata.good_rec(i) >= 0.5 %only days with good recordings(see docs, labeled by good_rec > 0.5)
+        elseif metadata.good_rec(i) >= 0.25 %only days with good recordings(see docs, labeled by good_rec > 0.5)
             %generate tidy data for this file
             tidy_data = create_tidy(file_ID,paradigm_params);
             % add field for quality of recording, from metadata
-            tidy_data.is_multiunit(:,1) = metadata.good_rec(i) == .5; %multiunits are labeled as .5 in the good_rec field
+            tidy_data.is_multiunit(:,1) = metadata.good_rec(i) <= .5; %multiunits are labeled as .5 in the good_rec field
             %save file in results
             save(sprintf('%s\\%s_tidy','results',file_ID),'tidy_data');
         end
